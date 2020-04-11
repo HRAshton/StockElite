@@ -29,11 +29,6 @@ namespace Dal
         public DbSet<SectorEntity> SectorEntities { get; set; }
 
         /// <summary>
-        ///     Штрих-коды.
-        /// </summary>
-        public DbSet<BarcodeEntity> BarcodeEntities { get; set; }
-
-        /// <summary>
         ///     Ключевые слова.
         /// </summary>
         public DbSet<KeyWordEntity> KeyWordEntities { get; set; }
@@ -49,6 +44,11 @@ namespace Dal
         /// <param name="options"></param>
         public EfContext(DbContextOptions options) : base(options)
         {
+        }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ItemKeywordRelation>().HasKey(rel => new { rel.ItemId, rel.KeyWordId });      
         }
     }
 }

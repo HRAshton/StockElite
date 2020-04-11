@@ -6,7 +6,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность ключевого слова.
     /// </summary>
-    public class KeyWordEntity : IEntityBase
+    public class KeyWordEntity
     {
         /// <summary>
         ///     Идентификатор ключевого слова.

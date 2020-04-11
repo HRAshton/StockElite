@@ -7,13 +7,14 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность сектора.
     /// </summary>
-    public class SectorEntity : IEntityBase
+    public class SectorEntity
     {
         /// <summary>
-        ///     Идентификатор предмета.
+        ///     Идентификатор (штрих-код) сектора.
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        [Range(3000000000, 3999999999)]
+        public uint Id { get; set; }
 
         /// <summary>
         ///     Наименование предмета.
@@ -27,12 +28,5 @@ namespace Dal.Entities
         /// </summary>
         [Required(AllowEmptyStrings = true)]
         public string Description { get; set; }
-
-
-        /// <summary>
-        ///     Штрих-код.
-        /// </summary>
-        [ForeignKey(nameof(Id))]
-        public BarcodeEntity Barcode { get; set; }
     }
 }

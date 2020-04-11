@@ -7,13 +7,14 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность предмета.
     /// </summary>
-    public class ItemEntity : IEntityBase
+    public class ItemEntity
     {
         /// <summary>
-        ///     Идентификатор предмета.
+        ///     Идентификатор (штрих-код) предмета.
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        [Range(0, 2999999999)]
+        public uint Id { get; set; }
 
         /// <summary>
         ///     Наименование предмета.
@@ -25,20 +26,19 @@ namespace Dal.Entities
         /// <summary>
         ///     Описание предмета.
         /// </summary>
-        [Required]
         public string Description { get; set; }
 
         /// <summary>
-        ///     Идентификатор сектора.
+        ///     Идентификатор (штрих-код) сектора.
         ///     Обязательное поле.
         /// </summary>
-        public Guid SectorId { get; set; }
+        public uint SectorId { get; set; }
 
         /// <summary>
-        ///     Идентификатор предмета-контейнера.
+        ///     Идентификатор (штрих-код) предмета-контейнера.
         ///     Необязательное поле.
         /// </summary>
-        public Guid? ContainerId { get; set; }
+        public uint? ContainerId { get; set; }
 
 
         /// <summary>
@@ -52,11 +52,5 @@ namespace Dal.Entities
         /// </summary>
         [ForeignKey(nameof(SectorId))]
         public SectorEntity Sector { get; set; }
-
-        /// <summary>
-        ///     Штрих-код.
-        /// </summary>
-        [ForeignKey(nameof(Id))]
-        public BarcodeEntity Barcode { get; set; }
     }
 }

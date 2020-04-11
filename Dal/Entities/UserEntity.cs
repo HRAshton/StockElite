@@ -8,13 +8,14 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность пользователя.
     /// </summary>
-    public class UserEntity : IEntityBase
+    public class UserEntity
     {
         /// <summary>
-        ///     Идентификатор пользователя.
+        ///     Идентификатор (штрих-код) пользователя.
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        [Range(4000000000, uint.MaxValue)]
+        public uint Id { get; set; }
 
         /// <summary>
         ///     ФИО пользователя.
@@ -42,14 +43,7 @@ namespace Dal.Entities
         ///     Пин-код пользователя.
         ///     Необязательное поле.
         /// </summary>
-        [StringLength(4)]
+        [StringLength(6)]
         public string Pin { get; set; }
-
-
-        /// <summary>
-        ///     Штрих-код.
-        /// </summary>
-        [ForeignKey(nameof(Id))]
-        public BarcodeEntity Barcode { get; set; }
     }
 }

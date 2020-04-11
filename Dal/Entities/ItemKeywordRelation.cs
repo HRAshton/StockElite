@@ -7,22 +7,18 @@ namespace Dal.Entities
     /// <summary>
     ///     Связь предмета и ключевого слова.
     /// </summary>
-    public class ItemKeywordRelation : IEntityBase
+    public class ItemKeywordRelation
     {
         /// <summary>
-        ///     Идентификатор.
+        ///     Идентификатор (штрих-код) предмета.
         /// </summary>
-        [Key]
-        public Guid Id { get; set; }
-
-        /// <summary>
-        ///     Идентификатор предмета.
-        /// </summary>
-        public Guid ItemId { get; set; }
+        [Key, Column(Order = 0)]
+        public uint ItemId { get; set; }
 
         /// <summary>
         ///     Идентификатор ключевого слова.
         /// </summary>
+        [Key, Column(Order = 1)]
         public Guid KeyWordId { get; set; }
 
 

@@ -8,7 +8,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность записи.
     /// </summary>
-    public class RecordEntity : IEntityBase
+    public class RecordEntity
     {
         /// <summary>
         ///     Идентификатор записи.
@@ -17,14 +17,14 @@ namespace Dal.Entities
         public Guid Id { get; set; }
 
         /// <summary>
-        ///     Идентификатор пользователя.
+        ///     Идентификатор (штрих-код) пользователя.
         /// </summary>
-        public Guid UserId { get; set; }
+        public uint UserId { get; set; }
 
         /// <summary>
-        ///     Идентификатор предмета.
+        ///     Идентификатор (штрих-код) предмета.
         /// </summary>
-        public Guid ItemId { get; set; }
+        public uint ItemId { get; set; }
 
         /// <summary>
         ///     Описание предмета.
