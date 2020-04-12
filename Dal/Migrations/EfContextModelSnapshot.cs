@@ -137,12 +137,17 @@ namespace Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("ImageFileId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageFileId");
 
                     b.ToTable("SectorEntities");
                 });
@@ -255,6 +260,13 @@ namespace Dal.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Dal.Entities.SectorEntity", b =>
+                {
+                    b.HasOne("Dal.Entities.StorageFileEntity", "ImageFile")
+                        .WithMany()
+                        .HasForeignKey("ImageFileId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dal.Entities
@@ -28,5 +27,17 @@ namespace Dal.Entities
         /// </summary>
         [Required(AllowEmptyStrings = true)]
         public string Description { get; set; }
+
+        /// <summary>
+        ///     Идентификатор изображения сектора.
+        /// </summary>
+        public uint? ImageFileId { get; set; }
+
+
+        /// <summary>
+        ///     Изображение сектора.
+        /// </summary>
+        [ForeignKey(nameof(ImageFileId))]
+        public StorageFileEntity ImageFile { get; set; }
     }
 }

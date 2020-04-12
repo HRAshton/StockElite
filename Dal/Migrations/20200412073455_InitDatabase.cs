@@ -20,19 +20,6 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SectorEntities",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
-                    Description = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SectorEntities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StorageFileEntities",
                 columns: table => new
                 {
@@ -59,6 +46,26 @@ namespace Dal.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserEntities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SectorEntities",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    ImageFileId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SectorEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SectorEntities_StorageFileEntities_ImageFileId",
+                        column: x => x.ImageFileId,
+                        principalTable: "StorageFileEntities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +200,11 @@ namespace Dal.Migrations
                 name: "IX_RecordEntities_UserId",
                 table: "RecordEntities",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SectorEntities_ImageFileId",
+                table: "SectorEntities",
+                column: "ImageFileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,9 +222,6 @@ namespace Dal.Migrations
                 name: "KeyWordEntities");
 
             migrationBuilder.DropTable(
-                name: "StorageFileEntities");
-
-            migrationBuilder.DropTable(
                 name: "ItemEntities");
 
             migrationBuilder.DropTable(
@@ -220,6 +229,9 @@ namespace Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "SectorEntities");
+
+            migrationBuilder.DropTable(
+                name: "StorageFileEntities");
         }
     }
 }
