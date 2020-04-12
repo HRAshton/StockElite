@@ -8,14 +8,14 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность записи.
     /// </summary>
-    public class RecordEntity
+    public class RecordEntity : IEntityBase
     {
         /// <summary>
         ///     Идентификатор записи.
         /// </summary>
         [Key]
         public uint Id { get; set; }
-
+        
         /// <summary>
         ///     Идентификатор (штрих-код) пользователя.
         /// </summary>

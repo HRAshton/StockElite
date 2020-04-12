@@ -7,7 +7,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность предмета.
     /// </summary>
-    public class ItemEntity
+    public class ItemEntity : IEntityBase
     {
         /// <summary>
         ///     Идентификатор (штрих-код) предмета.
@@ -28,7 +28,7 @@ namespace Dal.Entities
         /// </summary>
         [Required(AllowEmptyStrings = true)]
         public string Description { get; set; }
-
+        
         /// <summary>
         ///     Идентификатор (штрих-код) сектора.
         ///     Обязательное поле.

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dal.Entities
@@ -6,7 +7,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность сектора.
     /// </summary>
-    public class SectorEntity
+    public class SectorEntity : IEntityBase
     {
         /// <summary>
         ///     Идентификатор (штрих-код) сектора.

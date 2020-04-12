@@ -5,7 +5,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность файла.
     /// </summary>
-    public class StorageFileEntity
+    public class StorageFileEntity : IEntityBase
     {
         /// <summary>
         ///     Идентификатор файла.

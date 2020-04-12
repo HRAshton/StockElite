@@ -6,7 +6,7 @@ namespace Dal.Entities
     /// <summary>
     ///     Сущность пользователя.
     /// </summary>
-    public class UserEntity
+    public class UserEntity : IEntityBase
     {
         /// <summary>
         ///     Идентификатор (штрих-код) пользователя.

@@ -58,8 +58,8 @@ namespace Dal
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ItemKeywordRelation>().HasKey(rel => new { rel.ItemId, rel.KeyWordId });      
-            modelBuilder.Entity<ItemStorageFileRelation>().HasKey(rel => new { rel.ItemId, rel.StorageFileId });      
+            modelBuilder.Entity<ItemKeywordRelation>().HasKey(rel => new { rel.ItemId, rel.KeyWordId });
+            modelBuilder.Entity<ItemStorageFileRelation>().HasKey(rel => new {rel.ItemId, rel.StorageFileId});
         }
     }
 }
