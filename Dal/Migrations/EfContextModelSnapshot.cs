@@ -3,6 +3,7 @@ using System;
 using Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Dal.Migrations
@@ -14,27 +15,30 @@ namespace Dal.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3");
+                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Dal.Entities.ItemEntity", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
-                    b.Property<uint?>("ContainerId")
-                        .HasColumnType("INTEGER");
+                    b.Property<long?>("ContainerId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<uint>("SectorId")
-                        .HasColumnType("INTEGER");
+                    b.Property<long>("SectorId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -47,11 +51,11 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Dal.Entities.ItemKeywordRelation", b =>
                 {
-                    b.Property<uint>("ItemId")
-                        .HasColumnType("INTEGER");
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("KeyWordId")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("KeyWordId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("ItemId", "KeyWordId");
 
@@ -60,14 +64,30 @@ namespace Dal.Migrations
                     b.ToTable("ItemKeywordRelationEntities");
                 });
 
+            modelBuilder.Entity("Dal.Entities.ItemStorageFileRelation", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("StorageFileId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ItemId", "StorageFileId");
+
+                    b.HasIndex("StorageFileId");
+
+                    b.ToTable("ItemStorageFileRelations");
+                });
+
             modelBuilder.Entity("Dal.Entities.KeyWordEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -76,25 +96,27 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Dal.Entities.RecordEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<uint>("ItemId")
-                        .HasColumnType("INTEGER");
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("TEXT");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<uint>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -107,17 +129,17 @@ namespace Dal.Migrations
 
             modelBuilder.Entity("Dal.Entities.SectorEntity", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.HasKey("Id");
@@ -125,28 +147,52 @@ namespace Dal.Migrations
                     b.ToTable("SectorEntities");
                 });
 
-            modelBuilder.Entity("Dal.Entities.UserEntity", b =>
+            modelBuilder.Entity("Dal.Entities.StorageFileEntity", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("AdLogin")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Hashsum")
+                        .IsRequired()
+                        .HasColumnType("varbinary(32)")
                         .HasMaxLength(32);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StorageFileEntities");
+                });
+
+            modelBuilder.Entity("Dal.Entities.UserEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AdLogin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<string>("Pin")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(6);
+                    b.Property<byte[]>("PinHash")
+                        .HasColumnType("varbinary(32)")
+                        .HasMaxLength(32);
 
                     b.Property<int>("Role")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -177,6 +223,21 @@ namespace Dal.Migrations
                     b.HasOne("Dal.Entities.KeyWordEntity", "KeyWord")
                         .WithMany()
                         .HasForeignKey("KeyWordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Dal.Entities.ItemStorageFileRelation", b =>
+                {
+                    b.HasOne("Dal.Entities.ItemEntity", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dal.Entities.StorageFileEntity", "StorageFile")
+                        .WithMany()
+                        .HasForeignKey("StorageFileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dal.Entities
 {
     /// <summary>
-    ///     Связь предмета и ключевого слова.
+    ///     Связь предмета и файла (изображения).
     /// </summary>
-    public class ItemKeywordRelation
+    public class ItemStorageFileRelation
     {
         /// <summary>
         ///     Идентификатор (штрих-код) предмета.
@@ -16,10 +16,10 @@ namespace Dal.Entities
         public uint ItemId { get; set; }
 
         /// <summary>
-        ///     Идентификатор ключевого слова.
+        ///     Идентификатор файла (изображения).
         /// </summary>
         [Key, Column(Order = 1)]
-        public uint KeyWordId { get; set; }
+        public uint StorageFileId { get; set; }
 
 
         /// <summary>
@@ -29,9 +29,9 @@ namespace Dal.Entities
         public ItemEntity Item { get; set; }
 
         /// <summary>
-        ///     Ключевое слово.
+        ///     Файл (изображение).
         /// </summary>
-        [ForeignKey(nameof(KeyWordId))]
-        public KeyWordEntity KeyWord { get; set; }
+        [ForeignKey(nameof(StorageFileId))]
+        public StorageFileEntity StorageFile { get; set; }
     }
 }

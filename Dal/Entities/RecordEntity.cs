@@ -14,16 +14,18 @@ namespace Dal.Entities
         ///     Идентификатор записи.
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        public uint Id { get; set; }
 
         /// <summary>
         ///     Идентификатор (штрих-код) пользователя.
         /// </summary>
+        [Required]
         public uint UserId { get; set; }
 
         /// <summary>
         ///     Идентификатор (штрих-код) предмета.
         /// </summary>
+        [Required]
         public uint ItemId { get; set; }
 
         /// <summary>
@@ -36,6 +38,7 @@ namespace Dal.Entities
         ///     Дата и время события.
         /// </summary>
         [Required]
+        [Timestamp]
         public DateTime Timestamp { get; set; }
 
         /// <summary>

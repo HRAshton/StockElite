@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using Core.Enums;
 
 namespace Dal.Entities
@@ -40,10 +38,10 @@ namespace Dal.Entities
         public UserRole Role { get; set; }
 
         /// <summary>
-        ///     Пин-код пользователя.
+        ///     Хэш пин-кода пользователя.
         ///     Необязательное поле.
         /// </summary>
-        [StringLength(6)]
-        public string Pin { get; set; }
+        [MinLength(32)] [MaxLength(32)]
+        public byte[] PinHash { get; set; }
     }
 }

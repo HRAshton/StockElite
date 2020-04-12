@@ -26,12 +26,14 @@ namespace Dal.Entities
         /// <summary>
         ///     Описание предмета.
         /// </summary>
+        [Required(AllowEmptyStrings = true)]
         public string Description { get; set; }
 
         /// <summary>
         ///     Идентификатор (штрих-код) сектора.
         ///     Обязательное поле.
         /// </summary>
+        [Required]
         public uint SectorId { get; set; }
 
         /// <summary>

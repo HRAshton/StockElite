@@ -39,6 +39,16 @@ namespace Dal
         public DbSet<ItemKeywordRelation> ItemKeywordRelationEntities { get; set; }
 
         /// <summary>
+        ///     Связи предметов и файлов.
+        /// </summary>
+        public DbSet<ItemStorageFileRelation> ItemStorageFileRelations { get; set; }
+
+        /// <summary>
+        ///     Файлы.
+        /// </summary>
+        public DbSet<StorageFileEntity> StorageFileEntities { get; set; }
+
+        /// <summary>
         /// ctor todo
         /// </summary>
         /// <param name="options"></param>
@@ -49,6 +59,7 @@ namespace Dal
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ItemKeywordRelation>().HasKey(rel => new { rel.ItemId, rel.KeyWordId });      
+            modelBuilder.Entity<ItemStorageFileRelation>().HasKey(rel => new { rel.ItemId, rel.StorageFileId });      
         }
     }
 }

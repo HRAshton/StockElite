@@ -11,8 +11,8 @@ namespace Dal.Migrations
                 name: "KeyWordEntities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    Id = table.Column<long>(nullable: false),
+                    Value = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,8 +23,7 @@ namespace Dal.Migrations
                 name: "SectorEntities",
                 columns: table => new
                 {
-                    Id = table.Column<uint>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<long>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
                     Description = table.Column<string>(nullable: false)
                 },
@@ -34,15 +33,28 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StorageFileEntities",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Hashsum = table.Column<byte[]>(maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorageFileEntities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserEntities",
                 columns: table => new
                 {
-                    Id = table.Column<uint>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<long>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
                     AdLogin = table.Column<string>(maxLength: 32, nullable: false),
                     Role = table.Column<int>(nullable: false),
-                    Pin = table.Column<string>(maxLength: 6, nullable: true)
+                    PinHash = table.Column<byte[]>(maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,12 +65,11 @@ namespace Dal.Migrations
                 name: "ItemEntities",
                 columns: table => new
                 {
-                    Id = table.Column<uint>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<long>(nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    SectorId = table.Column<uint>(nullable: false),
-                    ContainerId = table.Column<uint>(nullable: true)
+                    Description = table.Column<string>(nullable: false),
+                    SectorId = table.Column<long>(nullable: false),
+                    ContainerId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,8 +92,8 @@ namespace Dal.Migrations
                 name: "ItemKeywordRelationEntities",
                 columns: table => new
                 {
-                    ItemId = table.Column<uint>(nullable: false),
-                    KeyWordId = table.Column<Guid>(nullable: false)
+                    ItemId = table.Column<long>(nullable: false),
+                    KeyWordId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,12 +113,36 @@ namespace Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ItemStorageFileRelations",
+                columns: table => new
+                {
+                    ItemId = table.Column<long>(nullable: false),
+                    StorageFileId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemStorageFileRelations", x => new { x.ItemId, x.StorageFileId });
+                    table.ForeignKey(
+                        name: "FK_ItemStorageFileRelations_ItemEntities_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "ItemEntities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemStorageFileRelations_StorageFileEntities_StorageFileId",
+                        column: x => x.StorageFileId,
+                        principalTable: "StorageFileEntities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RecordEntities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<uint>(nullable: false),
-                    ItemId = table.Column<uint>(nullable: false),
+                    Id = table.Column<long>(nullable: false),
+                    UserId = table.Column<long>(nullable: false),
+                    ItemId = table.Column<long>(nullable: false),
                     Comment = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     Type = table.Column<int>(nullable: false)
@@ -145,6 +180,11 @@ namespace Dal.Migrations
                 column: "KeyWordId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemStorageFileRelations_StorageFileId",
+                table: "ItemStorageFileRelations",
+                column: "StorageFileId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RecordEntities_ItemId",
                 table: "RecordEntities",
                 column: "ItemId");
@@ -161,10 +201,16 @@ namespace Dal.Migrations
                 name: "ItemKeywordRelationEntities");
 
             migrationBuilder.DropTable(
+                name: "ItemStorageFileRelations");
+
+            migrationBuilder.DropTable(
                 name: "RecordEntities");
 
             migrationBuilder.DropTable(
                 name: "KeyWordEntities");
+
+            migrationBuilder.DropTable(
+                name: "StorageFileEntities");
 
             migrationBuilder.DropTable(
                 name: "ItemEntities");

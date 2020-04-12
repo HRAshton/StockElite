@@ -32,7 +32,7 @@ namespace WebUi
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.AddDbContext<EfContext>(options => 
-                options.UseSqlite(Configuration.GetConnectionString("StockEliteDatabase")));
+                options.UseSqlServer(Configuration.GetConnectionString("StockEliteDatabase")));
 
 			
 

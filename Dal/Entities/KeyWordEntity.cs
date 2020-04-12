@@ -12,11 +12,12 @@ namespace Dal.Entities
         ///     Идентификатор ключевого слова.
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        public uint Id { get; set; }
 
         /// <summary>
         ///     Ключевое слово.
         /// </summary>
+        [Required(AllowEmptyStrings = false)]
         public string Value { get; set; }
     }
 }
